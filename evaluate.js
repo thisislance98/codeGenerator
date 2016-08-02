@@ -5,21 +5,13 @@
 var npm = require('npm');
 var fs = require('fs');
 var intentsData = require('./intentsData');
-var Promised = require('bluebird');
+var Promise = require('bluebird');
 var builder = require('botbuilder');
+var config = require('./config');
 
-// Create bot and bind to console
-//var connector = new builder.ConsoleConnector().listen();
-//var bot = new builder.UniversalBot(connector);
-
-var modelUrl = 'https://api.projectoxford.ai/luis/v1/application?id=4fe6b5ee-98da-4545-8929-5f19f95c841f&subscription-key=96e9d168f3e945a289c03a4d5052cbac';
-//var recognizer = new builder.LuisRecognizer(modelUrl);
-//var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
-//bot.dialog('/', dialog);
-
+var modelUrl = config.luisUrl;
 
 module.exports = function(str) {
-
 
     return new Promise (function (resolve,reject) {
 
@@ -39,13 +31,13 @@ module.exports = function(str) {
 
                         generateCode(intent,path, function () {
                             var func = require(path);
-                            console.log('got func: ' + func());
+
                             resolve(func());
                         })
                     }
                     else {
                         var func = require(path);
-                        console.log('got func: ' + func());
+
                         resolve(func());
                     }
 
@@ -54,7 +46,6 @@ module.exports = function(str) {
         });
     });
 }
-
 
 
 function getIntentName(intents) {
@@ -84,9 +75,9 @@ function generateCode(intent, path, onSuccess) {
             }
         });
 
-        //npm.on('log', function(message) {
-        //    // log installation progress
-        //    console.log(message);
-        //});
+        npm.on('log', function(message) {
+            // log installation progress
+            console.log(message);
+        });
     });
 }
