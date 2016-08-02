@@ -1,0 +1,11 @@
+{
+  "getCurrentTime" : {
+    "code" : "var moment = require('moment'); \n module.exports = function () \n { return moment().format('LT') };",
+    "require" : "moment"
+  },
+
+  "getDate" : {
+    "code" : "var moment = require('moment'); \n module.exports = function () \n { return moment().format('L') };",
+    "require" : "moment"
+  }
+}
